@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Typing Effect for Role
   if (document.querySelector(".typing-effect .role-text")) {
     const typed = new Typed(".role-text", {
-      strings: ["Data Analyst", "Software Developer"],
+      strings: ["Data Analyst", "ML Developer"],
       typeSpeed: 70,
       backSpeed: 50,
       loop: true,
