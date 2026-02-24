@@ -101,3 +101,39 @@ document.addEventListener("DOMContentLoaded", function () {
 if (typeof Typed === "undefined") {
   console.error("Typed.js not loaded.");
 }
+
+const contactForm = document.getElementById("contact-form");
+const formStatus = document.getElementById("form-status");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    
+    try {
+      const response = await fetch(event.target.action, {
+        method: contactForm.method,
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        formStatus.textContent = "Thank you! Your message has been sent.";
+        formStatus.style.display = "block";
+        formStatus.style.color = "var(--primary)";
+        contactForm.reset(); // Clears the form fields
+      } else {
+        const errorData = await response.json();
+        formStatus.textContent = errorData.errors ? errorData.errors.map(error => error.message).join(", ") : "Oops! There was a problem submitting your form.";
+        formStatus.style.display = "block";
+        formStatus.style.color = "var(--red)";
+      }
+    } catch (error) {
+      formStatus.textContent = "Oops! There was a problem connecting to the server.";
+      formStatus.style.display = "block";
+      formStatus.style.color = "var(--red)";
+    }
+  });
+}
